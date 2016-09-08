@@ -1,0 +1,88 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jun 11, 2016, 1:42:02 PM
+    Author     : Twan Blum
+*/
+
+.button-big {
+    -fx-font-size: 1.1em;
+    -fx-font-weight: bold;
+    -fx-prefered-height: 100px;
+    -fx-border-width: 0 0 4 0;
+}
+.button {
+    -fx-text-fill: #666;
+    -fx-background-color: #ddd;
+    -fx-background-insets: 0;
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: #bbb;
+    -fx-border-radius: 4;
+    
+}
+.button-primary {
+    -fx-text-fill: #fff;
+    -fx-background-color: #20c4c8;
+    -fx-background-insets: 0;
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: #3dadb3;
+    -fx-border-radius: 4;
+    
+}
+.button-primary:pressed {
+    -fx-background-color: #3dadb3;
+}
+
+.progress-indicator:indeterminate  {  
+    -fx-progress-color: transparent;
+    -fx-background-image: url("477.gif");
+    -fx-background-repeat: no-repeat;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+.table-view {
+    -fx-border: none;
+    -fx-table-cell-border-color: transparent;
+    -fx-table-header-border-color: transparent;
+    
+}
+
+.table-view,
+.table-view .filler,
+.table-view .column-header,
+.table-view .column-header-background {
+    -fx-background-color: inherit;
+}
+
+.table-view .column-header .label {
+    -fx-alignment:BASELINE_LEFT;
+    -fx-text-fill: #999;
+    -fx-font-weight: normal;
+}
+
+.table-view .table-row-cell{
+    -fx-cell-size: 36px;
+}
+.table-view .table-column-cell:selected{
+    -fx-norder: none;
+}
+.table-view .table-row-cell:selected {
+    -fx-background-color:#20c4c8;
+    -fx-border: none;
+}
+.table-view .table-column {
+    -fx-padding: 0 0 0 10px;
+    -fx-alignment: CENTER-LEFT;
+}
+
+.result-status-failed {
+    -fx-background-color: lightcoral;
+}
+.result-status-success {
+    -fx-background-color: transparent;
+}
