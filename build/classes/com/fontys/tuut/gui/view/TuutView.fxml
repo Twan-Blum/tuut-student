@@ -2,6 +2,7 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -34,17 +35,23 @@
                <children>
                   <ScrollPane fx:id="testResultTablePane" layoutX="22.0" layoutY="16.0" prefHeight="560.0" prefWidth="939.0">
                      <content>
-                        <TableView fx:id="testResultTable" prefHeight="556.0" prefWidth="935.0">
+                        <TableView fx:id="testResultTable" prefHeight="556.0" prefWidth="937.0">
                           <columns>
-                              <TableColumn fx:id="testNameColumn" prefWidth="209.0" text="test" />
-                              <TableColumn fx:id="testResultColumn" editable="false" prefWidth="112.0" text="status" />
-                            <TableColumn fx:id="testWeightColumn" editable="false" prefWidth="89.0" text="weight" />
-                            <TableColumn fx:id="testDescriptionColumn" editable="false" prefWidth="513.0" text="description" />
+                              <TableColumn fx:id="testNameColumn" prefWidth="267.0" text="test" />
+                              <TableColumn fx:id="testResultColumn" editable="false" prefWidth="102.0" text="status" />
+                            <TableColumn fx:id="testWeightColumn" editable="false" prefWidth="84.0" text="weight" />
+                            <TableColumn fx:id="testDescriptionColumn" editable="false" prefWidth="479.0" text="description" />
                           </columns>
                         </TableView>
                      </content>
                   </ScrollPane>
                   <ProgressIndicator fx:id="testResultProgress" layoutX="460.0" layoutY="280.0" prefHeight="34.0" prefWidth="38.0" visible="false" />
+                  <Label layoutX="50.0" layoutY="629.0" text="Total weight:" />
+                  <Label fx:id="totalWeightLabel" layoutX="150.0" layoutY="629.0" text="0" />
+                  <Label layoutX="300.0" layoutY="629.0" text="Passed:" />
+                  <Label fx:id="passingWeightLabel" layoutX="400.0" layoutY="629.0" text="0" />
+                  <Label layoutX="550.0" layoutY="629.0" text="Failed:" />
+                  <Label fx:id="failingWeightLabel" layoutX="650.0" layoutY="629.0" text="0" />
                </children>
             </AnchorPane>
          </children>

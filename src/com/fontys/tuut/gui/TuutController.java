@@ -5,15 +5,13 @@
  */
 package com.fontys.tuut.gui;
 
-import com.fontys.tuut.Test;
-import com.fontys.tuut.TestResult;
-import com.fontys.tuut.runner.Tuut;
 import java.io.File;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -28,9 +26,11 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
+import tuut.TuutRunner;
 
 /**
  *
@@ -58,7 +58,9 @@ public class TuutController implements Initializable
     @FXML private TableColumn<TestResultRow, String> testResultColumn;
     @FXML private TableColumn<TestResultRow, String> testWeightColumn;
     @FXML private TableColumn<TestResultRow, String> testDescriptionColumn;
-    
+     @FXML private Label totalWeightLabel;
+    @FXML private Label passingWeightLabel;
+    @FXML private Label failingWeightLabel;
     
     @FXML
     private void openTestAction(ActionEvent event) {
@@ -76,16 +78,34 @@ public class TuutController implements Initializable
         this.testResults.clear();
 
         final File path = this.project;
-        
+
         Task runTestTask = new Task<Void>() {
-            @Override protected Void call() throws Exception {
-                Tuut tuut = new Tuut();
-                tuut.addPath(path);
-                tuut.run().forEach((Test test, List<TestResult> results) -> {
-                    results.stream().forEach((result) -> {
-                        testResults.add(new TestResultRow(test, result));
+            @Override protected Void call() {
+                try {
+                    TuutRunner tuut = new TuutRunner();
+                    tuut.addPath(path);
+                    tuut.run().forEach((result) -> {
+                        testResults.add(new TestResultRow(result));
+                         Platform.runLater(() -> {
+                            if (result.wasSuccessful()) {
+                                passingWeightLabel.setText(String.valueOf(Integer.parseInt(passingWeightLabel.getText()) + result.getTestBehavior().getWeight()));
+                            } else {
+                                failingWeightLabel.setText(String.valueOf(Integer.parseInt(failingWeightLabel.getText()) + result.getTestBehavior().getWeight()));      
+                            }
+                            totalWeightLabel.setText(String.valueOf(Integer.parseInt(totalWeightLabel.getText()) + result.getTestBehavior().getWeight())); 
+                        });
                     });
-                });
+                } catch (Exception ex) {
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(AlertType.ERROR);
+                        alert.setTitle("Oops something went wrong!");
+                        alert.setHeaderText(null);
+                        alert.setContentText(ex.getMessage());
+                        alert.showAndWait();
+                    });
+            
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                }
 
                return null;
             }
@@ -93,31 +113,24 @@ public class TuutController implements Initializable
 
         this.testResultProgress.visibleProperty().bind(runTestTask.runningProperty());
         
-        Thread runTestThread = new Thread(runTestTask);          
+        Thread runTestThread = new Thread(runTestTask);
         runTestThread.start();
     }
     
     @FXML
     private void closeTestAction(ActionEvent event) {
         this.testResults.clear();
+        this.testResultTable.refresh();
+        this.totalWeightLabel.setText("0");
+        this.passingWeightLabel.setText("0");
+        this.failingWeightLabel.setText("0");
         this.testPane.setVisible(false);
-    }
-    
-    private void showException(Exception ex) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Oops something went wrong!");
-        alert.setHeaderText(null);
-        alert.setContentText(ex.getMessage());
-
-        alert.showAndWait();
-        
-        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.testPane.setVisible(false);
-        
+    
         testNameColumn.setCellValueFactory(cellData -> cellData.getValue().getName());
         testResultColumn.setCellValueFactory(cellData -> cellData.getValue().getResult());
         testWeightColumn.setCellValueFactory(cellData -> cellData.getValue().getWeight());
@@ -130,14 +143,12 @@ public class TuutController implements Initializable
                     super.updateItem(item, empty);
                     setText((empty) ? "" : getItem());
                     
-                    ObservableList<String> style= getTableRow().getStyleClass();
-                    
+                    TableRow<String> currentRow = getTableRow();
+         
                     if (!empty && item.equals("failed")) {
-                        style.remove("result-status-success");
-                        style.add("result-status-failed");
+                        currentRow.setStyle("-fx-background-color: lightcoral");
                     } else {
-                        style.remove("result-status-failed");
-                        style.add("result-status-success");
+                        currentRow.setStyle("-fx-background-color: transparent");
                     }
                 }
             };
@@ -147,4 +158,18 @@ public class TuutController implements Initializable
         testResultTable.setItems(this.testResults);
     }    
     
+   public void customResize(TableView<?> view) {
+
+        AtomicLong width = new AtomicLong();
+        view.getColumns().forEach(col -> {
+            width.addAndGet((long) col.getWidth());
+        });
+        double tableWidth = view.getWidth();
+
+        if (tableWidth > width.get()) {
+            view.getColumns().forEach(col -> {
+                col.setPrefWidth(col.getWidth()+((tableWidth-width.get())/view.getColumns().size()));
+            });
+        }
+    }
 }

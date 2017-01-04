@@ -3,11 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/Twan/NetBeansProjects/tuut-gui/src/com/fontys/tuut/gui/TestResultRow.java</file>
-            <file>file:/Users/Twan/NetBeansProjects/tuut-gui/src/com/fontys/tuut/gui/TuutController.java</file>
-            <file>file:/Users/Twan/NetBeansProjects/tuut-gui/src/com/fontys/tuut/gui/Main.java</file>
-            <file>file:/Users/Twan/NetBeansProjects/tuut-gui/src/com/fontys/tuut/gui/view/style.css</file>
-            <file>file:/Users/Twan/NetBeansProjects/tuut-gui/src/com/fontys/tuut/gui/view/TuutView.fxml</file>
+            <file>file:/Users/Twan/Projects/Tuut/oplevering/tuut-student/manifest.mf</file>
+            <file>file:/Users/Twan/Projects/Tuut/oplevering/tuut-student/build.xml</file>
+            <file>file:/Users/Twan/Projects/Tuut/oplevering/tuut-student/src/com/fontys/tuut/gui/Main.java</file>
         </group>
     </open-files>
 </project-private>

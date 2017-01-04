@@ -5,8 +5,7 @@
  */
 package com.fontys.tuut.gui;
 
-import com.fontys.tuut.Test;
-import com.fontys.tuut.TestResult;
+import tuut.TestResult;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -20,11 +19,14 @@ public class TestResultRow
     private final SimpleStringProperty weight;
     private final SimpleStringProperty description;
     
-    public TestResultRow(Test test, TestResult result) {
-        this.name        = new SimpleStringProperty(test.getClassName());
+    public TestResultRow(TestResult result) {
+        String test   = result.getTestBehavior().getTestClass().getClassName();
+        String method = test.substring(0, test.indexOf("TestError")) + "." + result.getTestBehavior().getName().replace("_", "() ");
+       
+        this.name        = new SimpleStringProperty(method);
         this.result      = new SimpleStringProperty(result.wasSuccessful() ? "passed" : "failed"); 
         this.weight      = new SimpleStringProperty(String.valueOf(result.getTestBehavior().getWeight()));
-        this.description = new SimpleStringProperty(result.getTestBehavior().getDescription());
+        this.description = new SimpleStringProperty(result.wasSuccessful() ? "" :result.getTestBehavior().getDescription());
     }
     
     public SimpleStringProperty getName() {

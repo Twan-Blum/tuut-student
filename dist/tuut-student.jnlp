@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="tuut-student.jnlp">
+  <information>
+    <title>tuut-student</title>
+    <vendor>Twan</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="lib/tuut-maven-1.0-SNAPSHOT-jar-with-dependencies.jar" size="1478384" download="eager" />
+    <jar href="tuut-student.jar" size="219991" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="tuut-student" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="com.fontys.tuut.gui.Main"  name="tuut-student" />
+  <update check="always"/>
+</jnlp>
